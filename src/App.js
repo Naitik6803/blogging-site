@@ -16,8 +16,6 @@ function App() {
     const [posts, setPosts] = useState([]);
     const history=useNavigate();
     useEffect(()=>{
-        console.log("hello boi");
-        console.log(user);
         if(user.email!=''){
             history("/mainpage");
         }

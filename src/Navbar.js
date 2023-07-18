@@ -27,17 +27,22 @@ function Navbar(props) {
     <>
 
         <nav>
-            <div className="logo">Your Logo</div>
+            <img src=''/>
             <div className="search-bar">
-                <input type="text" placeholder="Search for products..."/>
-                    <button type="submit">Search</button>
+                <input type="text" placeholder="Search anything..."/>
+                <button className="search-button">
+                    <FontAwesomeIcon icon={faSearch} />
+                </button>
+
             </div>
             <ul className="nav-links">
                 <li><a href="#">Home</a></li>
-                <li><a href="#">Shop</a></li>
-                <li><a href="#">Categories</a></li>
-                <li><a href="#">Cart</a></li>
-                <li><a onClick={handleLogout}>Signout</a></li>
+                <li><a href="#">New post</a></li>
+                <li><a href="#">Users</a></li>
+                <li><a onClick={handleLogout} style={{
+                    cursor:"pointer"
+
+                }}>Signout</a></li>
             </ul>
         </nav>
 
