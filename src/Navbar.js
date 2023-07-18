@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import './Navbar.css'
 
-function Navbar(props) {
+function Navbar({user,setUser,history}) {
     const [searchText, setSearchText] = useState('');
 
     const handleChange = (event) => {
@@ -16,7 +16,7 @@ function Navbar(props) {
         console.log(`Searching for: ${searchText}`);
     };
     function handleLogout(){
-        props.props.setUser({
+        setUser({
             name:'',
             email: '',
             id: '',
@@ -36,12 +36,27 @@ function Navbar(props) {
 
             </div>
             <ul className="nav-links">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">New post</a></li>
-                <li><a href="#">Users</a></li>
+                <li><a href="/">Home</a></li>
+
+
+                <li><a onClick={
+                    ()=>{ history("/newpost");}
+                } style={{
+                    cursor:"pointer"
+                }}>
+                    New post
+                </a></li>
+
+
+                <li><a onClick={
+                    ()=>{ history("/mypost");}
+                } style={{
+                    cursor:"pointer"
+                }}>Users</a></li>
+
+
                 <li><a onClick={handleLogout} style={{
                     cursor:"pointer"
-
                 }}>Signout</a></li>
             </ul>
         </nav>

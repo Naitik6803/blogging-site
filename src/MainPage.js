@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './mainPage.css';
 import Navbar from "./Navbar";
 
-const MainPage = ({user,setUser,posts,setPosts}) => {
+const MainPage = ({user,setUser,posts,setPosts,history}) => {
     useEffect(() => {
         const fetchPosts = async () => {
             const res = await fetch('/showpost');
@@ -11,13 +11,12 @@ const MainPage = ({user,setUser,posts,setPosts}) => {
             console.log("Heey");
             console.log(posts);
         };
-
         fetchPosts();
     }, []);
 
     return (
         <>
-            <Navbar props={{user,setUser}}/>
+            <Navbar user={user} setUser={setUser} posts={posts} setPosts={setPosts} history={history}/>
 
         <div className="container">
             <h1 className="heading">Blogging Site</h1>

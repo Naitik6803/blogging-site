@@ -40,24 +40,69 @@ Posts.get('/showpost', async (req, res) => {
     }
 });
 
+// fetch posts which belongs to current user
 
+Posts.post('/currentuser', async (req, res) => {
+    try {
+        const {userid}=req.body;
+        const allPosts = await Post.find({author:userid}).populate('author');
+        res.json(allPosts);
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error retrieving posts' });
+    }
+});
 
 // delete post
 
-// posts.post('/deletepost',async (req,res)=>{
-//     const {author}=req.body;
-//     if(!author){
-//         return res.status(422).json({error: "Please fill details correctly!"});
-//     }
-//     try{
-//         const
-//
-//     }
-//     catch{
-//         res.status(501);
-//     }
-// });
+Posts.delete('/delposts/:postId', async (req, res) => {
+    try {
+        const postId = req.params.postId;
+        const {userid}=req.body;
+        console.log(postId);
+        console.log(userid);
+        const post = await Post.findOneAndDelete({
+            _id: postId,
+            author: userid,
+        });
 
+        if (post) {
+            return res.json({ message: 'Post deleted successfully' });
+        } else {
+            return res.status(404).json({ error: 'You cant delete this post'});
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Error deleting post' });
+    }
+});
+
+
+// update post
+
+Posts.put('/api/posts/:postId', async (req, res) => {
+    try {
+        const postId = req.params.postId;
+        const {title,content}=req.body;
+        const updatedPost = await Post.findByIdAndUpdate(
+            postId,
+            {
+                title:title,
+                content: content,
+            },
+            { new: true }
+        );
+        if (updatedPost) {
+            return res.json(updatedPost);
+        } else {
+            return res.status(404).json({ error: 'Post not found' });
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Error updating post' });
+    }
+});
 
 
 module.exports = Posts;

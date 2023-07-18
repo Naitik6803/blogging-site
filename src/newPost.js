@@ -1,48 +1,59 @@
 import React, { useState } from 'react';
-
-const PostForm = ({ addPost }) => {
+import './newPost.css'
+const PostForm = ({ user, setUser }) => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
 
-    const handleSubmit = (e) => {
+// posting
+    const Submit= async (e)=>{
         e.preventDefault();
-
-        // Validation and error handling can be added here
-
-        // Create a new post object
-        const newPost = {
-            title: title,
-            content: content,
-        };
-
-        // Call the addPost function passed as a prop to update the posts
-        addPost(newPost);
-
-        // Reset the form fields
+        const res= await fetch('/newpost',{
+            method:'POST',
+            headers:{
+                "Content-type":"application/json",
+            },
+            body:JSON.stringify({
+                "title":title,
+                "content":content,
+                "author":user.id,
+            })
+        });
+        const data= await res.json();
+        console.log(data);
+        if(res.status===200){
+            console.log("Posted !");
+        }
+        else{
+            window.prompt("Please enter valid details!");
+        }
         setTitle('');
         setContent('');
     };
 
     return (
-        <div>
-            <h2>Create a New Post</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Title:</label>
+        <div className="post-form">
+            <h2 className="form-heading">Create a New Post</h2>
+            <form onSubmit={Submit}>
+                <div className="form-group">
+                    <label className="form-label">Title:</label>
                     <input
                         type="text"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
+                        className="form-input"
                     />
                 </div>
-                <div>
-                    <label>Content:</label>
+                <div className="form-group">
+                    <label className="form-label">Content:</label>
                     <textarea
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
+                        className="form-textarea"
                     ></textarea>
                 </div>
-                <button type="submit">Submit</button>
+                <button type="submit" className="form-submit-btn">
+                    Submit
+                </button>
             </form>
         </div>
     );
