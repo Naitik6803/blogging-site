@@ -15,7 +15,6 @@ require('./db');
 // auth page
 app.use(require('./auth'));
 //
-
 // posts
 app.use(require('./Posts'));
 //
